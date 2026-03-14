@@ -158,11 +158,11 @@ function processData() {
   };
 }
 
-// â FIX: Don’t close over large data
+// OK: Don't close over large data
 function processDataFixed() {
   const hugeData = fetchHugeDataset();
   const summary = computeSummary(hugeData);
-  // hugeData goes out of scope and can be GC’d
+  // hugeData goes out of scope and can be GC'd
 
   return function getSummary() {
     return summary;

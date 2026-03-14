@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Highlight, themes } from 'prism-react-renderer';
 import { Check, Copy, FileCode } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -12,14 +12,33 @@ interface CodeBlockProps {
 
 export function CodeBlock({ code, language, filename, highlights = [] }: CodeBlockProps) {
   const [copied, setCopied] = useState(false);
+  const [isDark, setIsDark] = useState(false);
 
-  const copy = async () => {
-    await navigator.clipboard.writeText(code);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
+  useEffect(() => {
+    const updateTheme = () => {
+      setIsDark(document.documentElement.classList.contains('dark'));
+    };
 
-  const isDark = document.documentElement.classList.contains('dark');
+    updateTheme();
+
+    const observer = new MutationObserver(updateTheme);
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class'],
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
+  const copy = useCallback(async () => {
+    try {
+      await navigator.clipboard.writeText(code);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy to clipboard:', err);
+    }
+  }, [code]);
 
   return (
     <div

@@ -1,18 +1,15 @@
 import { Link } from 'react-router-dom';
-import { ArrowRight, BookOpen, FileCode, Plug, ChefHat, Rocket, Compass, Bug } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { getPillarIcon } from '@/lib/icons';
 import type { PillarConfig } from '@/config/categories';
-
-const iconMap: Record<string, React.ElementType> = {
-  BookOpen, FileCode, Plug, ChefHat, Rocket, Compass, Bug,
-};
 
 interface CategoryCardProps {
   pillar: PillarConfig;
 }
 
 export function CategoryCard({ pillar }: CategoryCardProps) {
-  const Icon = iconMap[pillar.icon] || BookOpen;
+  const Icon = getPillarIcon(pillar.icon);
 
   return (
     <Link

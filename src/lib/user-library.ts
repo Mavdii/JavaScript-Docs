@@ -23,6 +23,17 @@ function clampPercent(value: number) {
   return Math.max(0, Math.min(100, Math.round(value)));
 }
 
+/**
+ * Sanitizes user input to prevent XSS attacks.
+ * Removes HTML tags and limits length.
+ */
+function sanitizeInput(input: string): string {
+  return input
+    .replace(/[<>]/g, '')
+    .slice(0, 100)
+    .trim();
+}
+
 function sanitizeProgress(value: unknown): ContentProgress | null {
   if (!value || typeof value !== 'object') return null;
   const candidate = value as ContentProgress;
@@ -147,7 +158,7 @@ export function recordRecentView(slug: string) {
 }
 
 export function addRecentSearch(query: string) {
-  const normalized = query.trim();
+  const normalized = sanitizeInput(query);
   if (!normalized) return getUserLibraryState();
   return writeUserLibraryState((state) => ({
     ...state,

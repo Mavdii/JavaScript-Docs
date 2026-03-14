@@ -7,6 +7,7 @@ import { Toaster } from '@/components/ui/toaster';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { Navbar } from '@/components/navigation/Navbar';
 import { Footer } from '@/components/navigation/Footer';
+import { ErrorBoundary } from '@/components/error-boundary/ErrorBoundary';
 const SearchModal = lazy(() =>
   import('@/components/search/SearchModal').then((module) => ({ default: module.SearchModal }))
 );
@@ -66,26 +67,28 @@ const App = () => {
                 </Suspense>
               ) : null}
               <div className="flex-1">
-                <Suspense fallback={<RouteFallback />}>
-                  <Routes>
-                    <Route path="/" element={<Home onOpenSearch={() => setSearchOpen(true)} />} />
-                    <Route path="/learn" element={<PillarLanding pillar="learn" />} />
-                    <Route path="/learn/:category/:slug" element={<LessonPage />} />
-                    <Route path="/reference" element={<PillarLanding pillar="reference" />} />
-                    <Route path="/reference/:category/:slug" element={<ReferencePage />} />
-                    <Route path="/recipes" element={<PillarLanding pillar="recipes" />} />
-                    <Route path="/recipes/:slug" element={<RecipePage />} />
-                    <Route path="/integrations" element={<PillarLanding pillar="integrations" />} />
-                    <Route path="/integrations/:slug" element={<IntegrationPage />} />
-                    <Route path="/projects" element={<PillarLanding pillar="projects" />} />
-                    <Route path="/projects/:slug" element={<ProjectPage />} />
-                    <Route path="/explore" element={<PillarLanding pillar="explore" />} />
-                    <Route path="/explore/:slug" element={<ExplorePage />} />
-                    <Route path="/errors" element={<PillarLanding pillar="errors" />} />
-                    <Route path="/errors/:slug" element={<ErrorPage />} />
-                    <Route path="*" element={<NotFound />} />
-                  </Routes>
-                </Suspense>
+                <ErrorBoundary>
+                  <Suspense fallback={<RouteFallback />}>
+                    <Routes>
+                      <Route path="/" element={<Home onOpenSearch={() => setSearchOpen(true)} />} />
+                      <Route path="/learn" element={<PillarLanding pillar="learn" />} />
+                      <Route path="/learn/:category/:slug" element={<LessonPage />} />
+                      <Route path="/reference" element={<PillarLanding pillar="reference" />} />
+                      <Route path="/reference/:category/:slug" element={<ReferencePage />} />
+                      <Route path="/recipes" element={<PillarLanding pillar="recipes" />} />
+                      <Route path="/recipes/:slug" element={<RecipePage />} />
+                      <Route path="/integrations" element={<PillarLanding pillar="integrations" />} />
+                      <Route path="/integrations/:slug" element={<IntegrationPage />} />
+                      <Route path="/projects" element={<PillarLanding pillar="projects" />} />
+                      <Route path="/projects/:slug" element={<ProjectPage />} />
+                      <Route path="/explore" element={<PillarLanding pillar="explore" />} />
+                      <Route path="/explore/:slug" element={<ExplorePage />} />
+                      <Route path="/errors" element={<PillarLanding pillar="errors" />} />
+                      <Route path="/errors/:slug" element={<ErrorPage />} />
+                      <Route path="*" element={<NotFound />} />
+                    </Routes>
+                  </Suspense>
+                </ErrorBoundary>
               </div>
               <Footer />
             </div>

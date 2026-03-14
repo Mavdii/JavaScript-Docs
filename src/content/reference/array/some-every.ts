@@ -32,8 +32,8 @@ export const arraySomeEveryReference: ReferenceContent = {
     ]},
 
     { type: 'heading', level: 2, text: 'some() as Early-Exit forEach', id: 'early-exit' },
-    { type: 'paragraph', text: 'Here\'s a neat trick — since some() stops at the first true, you can use it as a forEach that supports "breaking". Return true to stop, false to keep going.' },
-    { type: 'code', language: 'javascript', filename: 'some-break.js', code: `// â forEach: can’t break\n[1, 2, 3, 4, 5].forEach(n => {\n  if (n === 3) return; // only skips this callback\n  console.log(n);\n}); // 1, 2, 4, 5\n\n// â some: return true to "break"\n[1, 2, 3, 4, 5].some(n => {\n  if (n === 3) return true; // stops iteration\n  console.log(n);\n  return false;\n}); // 1, 2` },
+    { type: 'paragraph', text: 'A useful trick: because some() stops at the first true value, you can use it like a forEach that supports an early break. Return true to stop, false to keep going.' },
+    { type: 'code', language: 'javascript', filename: 'some-break.js', code: `// Wrong: forEach can't break\n[1, 2, 3, 4, 5].forEach(n => {\n  if (n === 3) return; // only skips this callback\n  console.log(n);\n}); // 1, 2, 4, 5\n\n// Correct: some() can return true to stop\n[1, 2, 3, 4, 5].some(n => {\n  if (n === 3) return true; // stops iteration\n  console.log(n);\n  return false;\n}); // 1, 2` },
 
     { type: 'heading', level: 2, text: 'Common Patterns', id: 'patterns' },
     { type: 'code', language: 'javascript', filename: 'patterns.js', code: `// Permission check\nconst hasPermission = user.roles.some(role =>\n  role.permissions.includes('admin:write')\n);\n\n// All required fields present\nconst requiredFields = ['name', 'email', 'password'];\nconst isValid = requiredFields.every(field => formData[field]?.trim());\n\n// Check for duplicates\nfunction hasDuplicates(arr) {\n  return arr.some((item, index) => arr.indexOf(item) !== index);\n}\n\n// Array containment: does A contain all of B?\nfunction containsAll(a, b) {\n  return b.every(item => a.includes(item));\n}\n\n// Array overlap: do A and B share any element?\nfunction hasOverlap(a, b) {\n  return a.some(item => b.includes(item));\n}` },

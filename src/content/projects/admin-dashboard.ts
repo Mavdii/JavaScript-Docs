@@ -107,7 +107,7 @@ function StatCard({ label, value, change, icon: Icon, trend }: StatCardProps) {
 function StatsGrid() {
   const stats: StatCardProps[] = [
     { label: 'Total Users', value: '2,847', change: 12, icon: Users, trend: 'up' },
-    { label: 'Revenue', value: '\$48,290', change: 8.2, icon: DollarSign, trend: 'up' },
+    { label: 'Revenue', value: '$48,290', change: 8.2, icon: DollarSign, trend: 'up' },
     { label: 'Orders', value: '1,234', change: 23, icon: ShoppingCart, trend: 'up' },
     { label: 'Bounce Rate', value: '32.4%', change: -3.1, icon: TrendingDown, trend: 'down' },
   ];

@@ -56,18 +56,26 @@ test('recipe page keeps bookmark state after reload', async ({ page }) => {
   await expect(page.getByRole('button', { name: 'Saved' })).toBeVisible();
 });
 
-test('coming-soon navigation items do not trigger route changes', async ({ page }) => {
+test('desktop navigation items are label-only and available routes open correctly', async ({ page }) => {
   await page.goto('/');
 
+  await page.getByRole('button', { name: 'Learn' }).click();
+  const variablesItem = page.getByRole('link', { name: 'Variables & Types' }).first();
+  await expect(variablesItem.locator('p')).toHaveCount(0);
+
   await page.getByRole('button', { name: 'Integrations' }).click();
-  const currentUrl = page.url();
+  await page.getByRole('link', { name: 'OpenAI / AI APIs' }).first().click();
 
-  const pendingItem = page.locator('li').filter({ hasText: 'OpenAI SDK' });
-  await expect(pendingItem).toBeVisible();
-  await expect(pendingItem.getByText('Coming Soon')).toBeVisible();
-  await pendingItem.getByText('OpenAI SDK').click();
+  await expect(page).toHaveURL(/\/integrations\/openai$/);
+  await expect(page.getByRole('heading', { name: 'OpenAI / AI APIs' })).toBeVisible();
+});
 
-  await expect(page).toHaveURL(currentUrl);
+test('new monorepos explore page loads', async ({ page }) => {
+  await page.goto('/explore/monorepos');
+
+  await expect(page).toHaveTitle(/Monorepos for JavaScript \| JSphere/i);
+  await expect(page.getByRole('heading', { name: 'Monorepos for JavaScript' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Directory' })).toBeVisible();
 });
 
 test('404 page shows recovery actions and suggested content', async ({ page }) => {

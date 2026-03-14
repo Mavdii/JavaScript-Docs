@@ -64,25 +64,19 @@ export function Navbar({ onOpenSearch }: NavbarProps) {
                                 <NavigationMenuLink asChild>
                                   <Link
                                     to={item.href}
-                                    className="block rounded-md px-3 py-2 text-sm transition-colors hover:bg-accent"
+                                    className="flex items-center rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-accent"
                                   >
-                                    <span className="font-medium">{item.label}</span>
-                                    <p className="mt-0.5 text-xs text-muted-foreground">
-                                      {item.description || item.entry?.description}
-                                    </p>
+                                    {item.label}
                                   </Link>
                                 </NavigationMenuLink>
                               ) : (
-                                <div className="rounded-md px-3 py-2 text-sm opacity-70">
+                                <div className="flex items-center justify-between rounded-md px-3 py-2 text-sm opacity-70">
                                   <div className="flex items-center gap-2">
                                     <span className="font-medium">{item.label}</span>
                                     <Badge variant="outline" className="text-[10px]">
                                       Coming Soon
                                     </Badge>
                                   </div>
-                                  <p className="mt-0.5 text-xs text-muted-foreground">
-                                    {item.description || 'This topic is planned but not published yet.'}
-                                  </p>
                                 </div>
                               )}
                             </li>

@@ -254,7 +254,7 @@ null == 0     // false (null only equals undefined)
 '3' - 2       // 1   (string → number, subtraction)
 '3' * '2'     // 6   (both → numbers)
 true + true   // 2   (both → 1)
-'foo' + + 'bar' // "fooNaN" (+\'bar\' → NaN → string)
+'foo' + + 'bar' // "fooNaN" (+ 'bar' -> NaN -> string)
 
 // Comparison coercion
 '10' > '9'    // false! (string comparison: "1" < "9")

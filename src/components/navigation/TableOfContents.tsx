@@ -42,8 +42,14 @@ export function TableOfContents({ headings }: TableOfContentsProps) {
             <a
               key={h.id}
               href={`#${h.id}`}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  document.getElementById(h.id)?.scrollIntoView({ behavior: 'smooth' });
+                }
+              }}
               className={cn(
-                'block text-sm leading-6 transition-colors',
+                'block text-sm leading-6 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded px-1 -mx-1',
                 h.level === 3 && 'pl-3',
                 h.level === 4 && 'pl-6',
                 activeId === h.id

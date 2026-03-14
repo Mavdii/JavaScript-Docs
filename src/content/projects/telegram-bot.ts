@@ -110,7 +110,7 @@ async function handleLike(chatId: number, data: string) {
 async function handleUnknown(chatId: number, args: string[]) {
   await bot.sendMessage({
     chat_id: chatId,
-    text: 'I don\'t understand that command. Type /help for options.',
+    text: "I don't understand that command. Type /help for options.",
   });
 }` },
 
@@ -153,7 +153,7 @@ async function handleRegister(chatId: number) {
 
   await bot.sendMessage({
     chat_id: chatId,
-    text: 'What\'s your name?',
+    text: "What's your name?",
   });
 }
 
@@ -168,7 +168,7 @@ async function handleMessage(chatId: number, text: string, message: Message) {
 
     await bot.sendMessage({
       chat_id: chatId,
-      text: 'What\'s your email?',
+      text: "What's your email?",
     });
   } else if (state.stage === 'asking_email') {
     state.data.email = text;

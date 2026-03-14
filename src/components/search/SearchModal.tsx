@@ -1,4 +1,4 @@
-import { useState, type ElementType } from 'react';
+import { useState, useMemo, type ElementType } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command';
@@ -6,6 +6,7 @@ import { searchContent, getSearchSuggestions, groupResultsByType } from '@/lib/s
 import { Badge } from '@/components/ui/badge';
 import { addRecentSearch } from '@/lib/user-library';
 import { useUserLibrary } from '@/hooks/use-user-library';
+import { useDebounce } from '@/hooks/use-debounce';
 import { BookOpen, Bug, ChefHat, Compass, FileCode, Plug, Rocket, Search } from 'lucide-react';
 
 const typeIcons: Record<string, ElementType> = {
@@ -39,12 +40,16 @@ interface SearchModalProps {
 
 export function SearchModal({ open, onOpenChange }: SearchModalProps) {
   const [query, setQuery] = useState('');
+  const debouncedQuery = useDebounce(query, 150);
   const navigate = useNavigate();
   const library = useUserLibrary();
 
-  const results = searchContent(query);
-  const grouped = groupResultsByType(results);
-  const suggestions = getSearchSuggestions();
+  const results = useMemo(
+    () => searchContent(debouncedQuery),
+    [debouncedQuery]
+  );
+  const grouped = useMemo(() => groupResultsByType(results), [results]);
+  const suggestions = useMemo(() => getSearchSuggestions(), []);
   const recentSearches = library.recentSearches;
 
   const handleSelect = (slug: string) => {
@@ -62,6 +67,7 @@ export function SearchModal({ open, onOpenChange }: SearchModalProps) {
             placeholder="Search documentation..."
             value={query}
             onValueChange={setQuery}
+            aria-label="Search documentation"
           />
           <CommandList className="max-h-80">
             {query && results.length === 0 && (

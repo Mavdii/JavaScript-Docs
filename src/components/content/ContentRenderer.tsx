@@ -1,3 +1,4 @@
+import { useMemo, memo } from 'react';
 import type { ContentBlock } from '@/types/content';
 import { CodeBlock } from '@/components/code/CodeBlock';
 import { Callout } from '@/components/content/Callout';
@@ -25,21 +26,25 @@ function InlineCode({ text }: { text: string }) {
   );
 }
 
-export function ContentRenderer({ blocks }: ContentRendererProps) {
+export const ContentRenderer = memo(function ContentRenderer({ blocks }: ContentRendererProps) {
   // Group blocks into concept sections separated by h2 headings
   // Each h2 starts a new section; we render dividers between sections
-  const sections: ContentBlock[][] = [];
-  let current: ContentBlock[] = [];
+  const sections = useMemo(() => {
+    const sections: ContentBlock[][] = [];
+    let current: ContentBlock[] = [];
 
-  for (const block of blocks) {
-    if (block.type === 'heading' && block.level === 2 && current.length > 0) {
-      sections.push(current);
-      current = [block];
-    } else {
-      current.push(block);
+    for (const block of blocks) {
+      if (block.type === 'heading' && block.level === 2 && current.length > 0) {
+        sections.push(current);
+        current = [block];
+      } else {
+        current.push(block);
+      }
     }
-  }
-  if (current.length > 0) sections.push(current);
+    if (current.length > 0) sections.push(current);
+    
+    return sections;
+  }, [blocks]);
 
   function renderBlock(block: ContentBlock, i: number) {
     switch (block.type) {
@@ -148,4 +153,4 @@ export function ContentRenderer({ blocks }: ContentRendererProps) {
       ))}
     </div>
   );
-}
+});

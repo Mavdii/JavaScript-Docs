@@ -7,7 +7,7 @@ export const arrayFindReference: ReferenceContent = {
   compatibility: 'ES6+ — All modern browsers',
   sections: [
     { type: 'heading', level: 2, text: 'Description', id: 'description' },
-    { type: 'paragraph', text: 'So find() is your go-to when you need to locate one specific element in an array. It’ll grab the first element that passes your test and bounce â it doesn\'t keep searching after finding a match, which makes it way more efficient than filter() if you only care about one result.' },
+    { type: 'paragraph', text: 'Use find() when you need one specific element from an array. It returns the first item that passes your test and stops immediately, which makes it more efficient than filter() when you only need a single result.' },
 
     { type: 'heading', level: 2, text: 'Basic Usage', id: 'basic' },
     { type: 'code', language: 'javascript', filename: 'find-basic.js', code: `const numbers = [5, 12, 8, 130, 44];\n\nconst found = numbers.find(n => n > 10);\nconsole.log(found); // 12 (first match, not all matches)\n\nconst missing = numbers.find(n => n > 200);\nconsole.log(missing); // undefined` },
@@ -35,7 +35,7 @@ export const arrayFindReference: ReferenceContent = {
     { type: 'callout', variant: 'tip', title: 'find vs filter', text: 'Use find() when you need just one result (like a database lookup by ID). Use filter() when you need all matches. Don\'t use filter()[0] — that wastes time scanning the whole array when you could stop early.' },
 
     { type: 'heading', level: 2, text: 'Common Mistakes', id: 'common-mistakes' },
-    { type: 'code', language: 'javascript', filename: 'find-mistakes.js', code: `// â Mistake 1: Not handling undefined\nconst user = users.find(u => u.id === 999);\nconsole.log(user.name); // TypeError: Cannot read properties of undefined!\n\n// â Fix: check for undefined\nconst user2 = users.find(u => u.id === 999);\nif (user2) {\n  console.log(user2.name);\n}\n// Or use optional chaining\nconsole.log(user2?.name); // undefined (no error)\n\n// â Mistake 2: Using find to check existence (use some() instead)\nif (users.find(u => u.role === 'admin')) { ... }  // Works but wasteful\nif (users.some(u => u.role === 'admin')) { ... }   // Better â returns boolean\n\n// â Mistake 3: Mutating the found object thinking it’s a copy\nconst found = users.find(u => u.id === 1);\nfound.name = 'Modified'; // This modifies the original array’s object!` },
+    { type: 'code', language: 'javascript', filename: 'find-mistakes.js', code: `// Wrong: not handling undefined\nconst user = users.find(u => u.id === 999);\nconsole.log(user.name); // TypeError: Cannot read properties of undefined!\n\n// Correct: check for undefined\nconst user2 = users.find(u => u.id === 999);\nif (user2) {\n  console.log(user2.name);\n}\n// Or use optional chaining\nconsole.log(user2?.name); // undefined (no error)\n\n// Wrong: using find to check existence (use some() instead)\nif (users.find(u => u.role === 'admin')) { /* ... */ }  // Works but wasteful\nif (users.some(u => u.role === 'admin')) { /* ... */ }  // Better: returns boolean\n\n// Wrong: mutating the found object thinking it's a copy\nconst found = users.find(u => u.id === 1);\nfound.name = 'Modified'; // This modifies the original array object!` },
 
     { type: 'heading', level: 2, text: 'Edge Cases', id: 'edge-cases' },
     { type: 'list', items: [

@@ -7,8 +7,18 @@ import { useReadingProgress } from '@/hooks/use-reading-progress';
 export function useContentEntry<T>(slug: string, enabled = true) {
   return useQuery({
     queryKey: ['content-entry', slug],
-    queryFn: async () => (await loadContentBySlug(slug)) as T | undefined,
+    queryFn: async () => {
+      try {
+        const content = await loadContentBySlug(slug);
+        return content as T | undefined;
+      } catch (error) {
+        console.error(`Failed to load content for slug: ${slug}`, error);
+        throw new Error(`Failed to load content: ${slug}`);
+      }
+    },
     enabled: enabled && Boolean(slug),
+    retry: 2,
+    staleTime: 1000 * 60 * 5, // 5 minutes
   });
 }
 
