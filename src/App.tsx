@@ -10,16 +10,16 @@ import { Footer } from '@/components/navigation/Footer';
 const SearchModal = lazy(() =>
   import('@/components/search/SearchModal').then((module) => ({ default: module.SearchModal }))
 );
-const Home = lazy(() => import('@/pages/Home'));
-const PillarLanding = lazy(() => import('@/pages/PillarLanding'));
-const LessonPageView = lazy(() => import('@/pages/learn/LessonPageView'));
-const ReferencePageView = lazy(() => import('@/pages/reference/ReferencePageView'));
-const RecipePageView = lazy(() => import('@/pages/recipes/RecipePageView'));
-const IntegrationPageView = lazy(() => import('@/pages/integrations/IntegrationPageView'));
-const ProjectPageView = lazy(() => import('@/pages/projects/ProjectPageView'));
-const ExplorePageView = lazy(() => import('@/pages/explore/ExplorePageView'));
-const ErrorPageView = lazy(() => import('@/pages/errors/ErrorPageView'));
-const NotFound = lazy(() => import('@/pages/NotFound'));
+const Home = lazy(() => import('@/features/home/HomePage'));
+const PillarLanding = lazy(() => import('@/features/pillar/PillarLandingPage'));
+const LessonPage = lazy(() => import('@/features/learn/LessonPage'));
+const ReferencePage = lazy(() => import('@/features/reference/ReferencePage'));
+const RecipePage = lazy(() => import('@/features/recipes/RecipePage'));
+const IntegrationPage = lazy(() => import('@/features/integrations/IntegrationPage'));
+const ProjectPage = lazy(() => import('@/features/projects/ProjectPage'));
+const ExplorePage = lazy(() => import('@/features/explore/ExplorePage'));
+const ErrorPage = lazy(() => import('@/features/errors/ErrorPage'));
+const NotFound = lazy(() => import('@/features/not-found/NotFoundPage'));
 
 const queryClient = new QueryClient();
 
@@ -70,19 +70,19 @@ const App = () => {
                   <Routes>
                     <Route path="/" element={<Home onOpenSearch={() => setSearchOpen(true)} />} />
                     <Route path="/learn" element={<PillarLanding pillar="learn" />} />
-                    <Route path="/learn/:category/:slug" element={<LessonPageView />} />
+                    <Route path="/learn/:category/:slug" element={<LessonPage />} />
                     <Route path="/reference" element={<PillarLanding pillar="reference" />} />
-                    <Route path="/reference/:category/:slug" element={<ReferencePageView />} />
+                    <Route path="/reference/:category/:slug" element={<ReferencePage />} />
                     <Route path="/recipes" element={<PillarLanding pillar="recipes" />} />
-                    <Route path="/recipes/:slug" element={<RecipePageView />} />
+                    <Route path="/recipes/:slug" element={<RecipePage />} />
                     <Route path="/integrations" element={<PillarLanding pillar="integrations" />} />
-                    <Route path="/integrations/:slug" element={<IntegrationPageView />} />
+                    <Route path="/integrations/:slug" element={<IntegrationPage />} />
                     <Route path="/projects" element={<PillarLanding pillar="projects" />} />
-                    <Route path="/projects/:slug" element={<ProjectPageView />} />
+                    <Route path="/projects/:slug" element={<ProjectPage />} />
                     <Route path="/explore" element={<PillarLanding pillar="explore" />} />
-                    <Route path="/explore/:slug" element={<ExplorePageView />} />
+                    <Route path="/explore/:slug" element={<ExplorePage />} />
                     <Route path="/errors" element={<PillarLanding pillar="errors" />} />
-                    <Route path="/errors/:slug" element={<ErrorPageView />} />
+                    <Route path="/errors/:slug" element={<ErrorPage />} />
                     <Route path="*" element={<NotFound />} />
                   </Routes>
                 </Suspense>
